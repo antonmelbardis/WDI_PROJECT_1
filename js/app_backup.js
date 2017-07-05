@@ -9,7 +9,6 @@ function init (){
   var wv = pane.height() - box.height(),
   d = {},
   x = 5;
-  var score = 0;
   const bgcolorlist = new Array("red", "green", "blue");
   const chooseColor = function() {
     return bgcolorlist[Math.floor(Math.random()*bgcolorlist.length)];
@@ -67,52 +66,30 @@ function init (){
     // var test1 = box.offset();
     // return test1;
 
-    // gameLogic();
+    gameLogic();
   }
 
   function animateBox(box) {
     box.animate({
       'top': '600px'
-    }, {
-      duration: 2000,
-      step: function() {
-        const $onscreenBasket = $('#basket');
-        var basketColour = $onscreenBasket.css('background-color');
-        var snowflakeColour = $(this).css('background-color');
-
-        if (collision($onscreenBasket, $(this))) {
-          console.log('collided');
-          $(this).stop().remove();
-          if(basketColour===snowflakeColour){
-            score += 1;
-          }else{
-            score -= 1;
-          }
-          if(score < 0){
-            alert('GAME OVER MOTHERFUCKER!');
-          }
-          $('#score').html(score);
-        }
-      }
-    }, 'linear', function() {
+    }, 2000, 'linear', function() {
       box.stop().remove();
-
     });
   }
 
   setInterval(createNewBox, 500);
   setInterval(changePaddleColor, 2000);
 
-  // function gameLogic() {
-  //   let $onscreenSnowflake = $('#snowflakes');
-  //   let $onscreenBasket = $('#basket');
-  //
-  //   console.log($onscreenBasket, $onscreenSnowflake);
-  //   if (collision($onscreenBasket, $onscreenSnowflake)) {
-  //     console.log('collided');
-  //
-  //   }
-  // }
+  function gameLogic() {
+    let $onscreenSnowflake = $('#snowflakes');
+    let $onscreenBasket = $('#basket');
+
+    console.log($onscreenBasket, $onscreenSnowflake);
+    if (collision($onscreenBasket, $onscreenSnowflake)) {
+      console.log('collided');
+
+    }
+  }
 
   function collision($div1, $div2) {
     var x1 = $div1.offset().left;
@@ -132,5 +109,4 @@ function init (){
 
     return true;
   }
-
 }

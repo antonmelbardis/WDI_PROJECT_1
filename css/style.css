@@ -1,3 +1,35 @@
-body {
-  background-color: grey;
+/*body {
+  max-width: 1000px;
+  position: relative;
+  text-align: center;*/
+
+
+#playingTable {
+  position: relative;
+  /*border: solid;*/
+  width:350px;
+  height:600px;
+  left: auto;
+  top:auto;
+  background-color: yellow;
+  margin: 0 auto;
+  /*text-align: center;*/
+  /*display:inline-block;*/
+
+
+}
+#basket {
+    position:absolute; top:600px; left:0px;
+    width:100px; height:20px;
+    background-color:black;
+    /*margin: 0 250px 0 250px;*/
+    /*text-align: center;*/
+}
+
+#snowflakes {
+  width: 20px;
+  height: 20px;
+  background-color: black;
+  position: absolute;
+  top: 0;
 }
