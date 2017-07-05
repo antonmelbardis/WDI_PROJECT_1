@@ -63,11 +63,6 @@ function init (){
     $('#playingTable').append(box);
 
     animateBox(box);
-    // console.log(box.offset());
-    // var test1 = box.offset();
-    // return test1;
-
-    // gameLogic();
   }
 
   function animateBox(box) {
@@ -89,6 +84,7 @@ function init (){
             score -= 1;
           }
           if(score < 0){
+            score=0;
             alert('GAME OVER MOTHERFUCKER!');
           }
           $('#score').html(score);
@@ -102,17 +98,6 @@ function init (){
 
   setInterval(createNewBox, 500);
   setInterval(changePaddleColor, 2000);
-
-  // function gameLogic() {
-  //   let $onscreenSnowflake = $('#snowflakes');
-  //   let $onscreenBasket = $('#basket');
-  //
-  //   console.log($onscreenBasket, $onscreenSnowflake);
-  //   if (collision($onscreenBasket, $onscreenSnowflake)) {
-  //     console.log('collided');
-  //
-  //   }
-  // }
 
   function collision($div1, $div2) {
     var x1 = $div1.offset().left;
