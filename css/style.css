@@ -33,3 +33,7 @@
   position: absolute;
   top: 0;
 }
+p {
+  position: relative;
+  text-align: center;
+}
