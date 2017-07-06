@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>RGBCatcher</title>
+  <title>Colour Catcher v 0.1</title>
+  <link href="https://fonts.googleapis.com/css?family=Russo+One" rel="stylesheet">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/style.css">
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -9,15 +10,17 @@
   <script src="js/app.js"></script>
 
 </head>
-
 <body>
-    <h1>RGB Catcher</h1>
-  <div id="playingTable">
-    <div id="basket"></div>
-  </div>
-  <p>Your score: </br><span class="score">0</span></p>
-  <p>Level: </br><span class="score">1</span></p>
-  <!-- <button id="reset">Button</button> -->
-  <audio id="audio"></audio>
+<div id="headerLogo"><h1 id="logo">COLOUR CATCHER v 0.1</h1></div>
+<div id="playingTable">
+  <p class="scoreText">Your score: </br><span class="score">0</span></p>
+  <p class="levelText">Level: </br><span class="level">1</span></p>
+  <div id="basket"></div>
+</div>
+<div class="buttons">
+  <div id="reset"><p class id="textOnButtons">RESET</p></div>
+  <div id="start"><p class id="textOnButtons">START</p></div>
+</div>
+<audio id="audio"></audio>
 </body>
 </html>

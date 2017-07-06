@@ -1,16 +1,34 @@
 $(init);
 
 function init (){
-  var basket = $('#basket');
-  var snowflakes = $('#snowflakes');
-  var pane = $('#playingTable'),
-  box = $('#basket'),
-  wh = pane.width() - box.width();
-  var wv = pane.height() - box.height(),
-  d = {},
-  x = 5;
+
   var score = 0;
-  const bgcolorlist = new Array('red', 'green', 'blue');
+  var level = 1;
+  var speed = 500;
+
+  var gameInterval;
+  const levels = {
+    1: 10,
+    2: 20,
+    3: 30,
+    4: 40,
+    5: 50,
+    6: 60,
+    7: 70,
+    8: 80,
+    9: 90
+  };
+
+  var basket = $('#basket');
+  // var snowflakes = $('#snowflakes');
+  var pane = $('#playingTable'),
+    box = $('#basket'),
+    wh = pane.width() - box.width();
+  var wv = pane.height() - box.height(),
+    d = {},
+    x = 5;
+
+  const bgcolorlist = new Array('#114B5F', '#CEE0DC', '#EEC643');
   const chooseColor = function() {
     return bgcolorlist[Math.floor(Math.random()*bgcolorlist.length)];
   };
@@ -44,8 +62,8 @@ function init (){
         return newv(v, 38, 40);
       }
     });
-    wh = pane.width() - box.width();
-    wv = pane.height() - box.height();
+    wh = (pane.width() - box.width())-2;
+    wv = (pane.height() - box.height())-2;
   }, 20);
 
   function createNewBox() {
@@ -53,7 +71,7 @@ function init (){
     const box = $('<div id="snowflakes"></div>');
     box.css('left', `${randomNumber}px`);
     box.css('background-color', `${chooseColor()}`);
-    $('#playingTable').append(box);
+    $('#playingTable').append(box).show('slow');
     animateBox(box);
   }
 
@@ -61,60 +79,44 @@ function init (){
     box.animate({
       'top': '600px'
     },
-    {
-      duration: 2000,
-      step: function() {
-        const $onscreenBasket = $('#basket');
-        var basketColour = $onscreenBasket.css('background-color');
-        var snowflakeColour = $(this).css('background-color');
-        if (collision($onscreenBasket, $(this))) {
-          $(this).toggle('explode').stop().remove();
-          if(basketColour===snowflakeColour){
-            score++;
-            playSoundWin();
-          }else{
-            score--;
-            playSoundLose();
+      {
+        duration: 2000,
+        step: function() {
+          const $onscreenBasket = $('#basket');
+          var basketColour = $onscreenBasket.css('background-color');
+          var snowflakeColour = $(this).css('background-color');
+          if (collision($onscreenBasket, $(this))) {
+            $(this).toggle('explode').stop().remove();
+            if(basketColour===snowflakeColour){
+              checkforlevelup();
+              playSoundWin();
+            }else{
+              playSoundLose();
+              score--;
+            }
+            if(score < 0){
+              gameOver();
+              $onscreenBasket.toggle('explode').stop().remove();
+              setTimeout(location.reload.bind(location), 500);
+            }
+            $('.score').hide().html(score).fadeIn('slow');
+            $('.level').html(level).show;
           }
-          if(score < 0){
-            gameOver();
-            $onscreenBasket.toggle('explode').stop().remove();
-            setTimeout(location.reload.bind(location), 500);
-          }
-          $('.score').html(score);
+        },
+        easing: 'linear',
+        complete: function() {
+          $(this).remove();
         }
-      },
-      easing: 'linear',
-      complete: function() {
-        $(this).remove();
-      }
-    });
+      });
   }
 
-  // function gameLogic() {
-  //   function() {
-  //     const $onscreenBasket = $('#basket');
-  //     var basketColour = $onscreenBasket.css('background-color');
-  //     var snowflakeColour = $(this).css('background-color');
-  //     if (collision($onscreenBasket, $(this))) {
-  //       $(this).toggle('explode').stop().remove();
-  //       if(basketColour===snowflakeColour){
-  //         score++;
-  //         playSoundWin();
-  //       }else{
-  //         score--;
-  //         playSoundLose();
-  //       }
-  //       if(score < 0){
-  //         gameOver();
-  //         $onscreenBasket.toggle('explode').stop().remove();
-  //         setTimeout(location.reload.bind(location), 500);
-  //       }
-  //       $('.score').html(score);
-  //     }
-  // }
+  $('#start').click(function() {
+    gameInterval = setInterval(createNewBox, speed);
+  });
 
-  setInterval(createNewBox, 500);
+  $('#reset').click(function() {
+    location.reload();
+  });
 
   function changePaddleColor(){
     basket.css('background-color',`${chooseColor()}`);
@@ -135,27 +137,49 @@ function init (){
     audio.play();
   }
 
+  function levelUp() {
+
+    setTimeout(function() {
+      new Audio('sounds/levelUp.wav').play();
+    }, 500);
+
+  }
+
   setInterval(function () {
     changePaddleColor();
   },5000);
 
-  function collision($div1, $div2) {
-    var x1 = $div1.offset().left;
-    var y1 = $div1.offset().top;
-    var h1 = $div1.outerHeight();
-    var w1 = $div1.outerWidth();
-    var b1 = y1 + h1;
-    var r1 = x1 + w1;
-    var x2 = $div2.offset().left;
-    var y2 = $div2.offset().top;
-    var h2 = $div2.outerHeight();
-    var w2 = $div2.outerWidth();
-    var b2 = y2 + h2;
-    var r2 = x2 + w2;
-
-    if (b1 < y2 || y1 > b2 || r1 < x2 || x1 > r2) return false;
-
-    return true;
+  function checkforlevelup() {
+    score++;
+    if (score === levels[level]) {
+      level++;
+      levelUp();
+      speed -= 50;
+      console.log(level);
+      console.log(speed);
+      console.log('Level up!');
+      clearInterval(gameInterval);
+      gameInterval = setInterval(createNewBox, speed);
+    }
   }
+}
 
+
+function collision($div1, $div2) {
+  var x1 = $div1.offset().left;
+  var y1 = $div1.offset().top;
+  var h1 = $div1.outerHeight();
+  var w1 = $div1.outerWidth();
+  var b1 = y1 + h1;
+  var r1 = x1 + w1;
+  var x2 = $div2.offset().left;
+  var y2 = $div2.offset().top;
+  var h2 = $div2.outerHeight();
+  var w2 = $div2.outerWidth();
+  var b2 = y2 + h2;
+  var r2 = x2 + w2;
+
+  if (b1 < y2 || y1 > b2 || r1 < x2 || x1 > r2) return false;
+
+  return true;
 }
