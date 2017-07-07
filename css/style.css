@@ -91,6 +91,7 @@ p {
   background-color: #54494B;
   height: 50px;
   margin: 0 auto;
+  margin-top: 95px;
 }
 
 #logo {
@@ -99,4 +100,16 @@ p {
   color: #AF9164;
   font-size: 25px;
   margin: 4px;
+}
+
+
+#gameOverText {
+  height: 60px;
+  width: 300px
+  position: abosolute;
+  font-family: 'Russo One', sans-serif;
+  color: #AF9164;
+  font-size: 45px;
+  height: 100px;
+  margin-top: 285px;
 }

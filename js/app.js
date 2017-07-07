@@ -94,9 +94,9 @@ function init (){
               score--;
             }
             if(score < 0){
+              $(this).stop().remove()
               gameOver();
               $onscreenBasket.toggle('explode').stop().remove();
-              setTimeout(location.reload.bind(location), 500);
             }
             $('.score').hide().html(score).fadeIn('slow');
             $('.level').html(level).show;
@@ -134,6 +134,10 @@ function init (){
   function gameOver() {
     audio.src = 'sounds/gameOver.wav';
     audio.play();
+    clearInterval(gameInterval);
+    $('#playingTable').empty();
+    const gameOverText = $('<div id="gameOverText" class=".scoreText">GAME OVER!</div>');
+    $('#playingTable').append(gameOverText);
   }
 
   function levelUp() {
