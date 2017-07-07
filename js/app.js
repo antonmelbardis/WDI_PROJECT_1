@@ -20,7 +20,6 @@ function init (){
   };
 
   var basket = $('#basket');
-  // var snowflakes = $('#snowflakes');
   var pane = $('#playingTable'),
     box = $('#basket'),
     wh = pane.width() - box.width();
@@ -138,7 +137,6 @@ function init (){
   }
 
   function levelUp() {
-
     setTimeout(function() {
       new Audio('sounds/levelUp.wav').play();
     }, 500);
@@ -163,7 +161,6 @@ function init (){
     }
   }
 }
-
 
 function collision($div1, $div2) {
   var x1 = $div1.offset().left;
